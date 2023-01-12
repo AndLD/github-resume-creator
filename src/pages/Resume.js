@@ -1,4 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons'
+import moment from 'moment'
 import { Octokit } from 'octokit'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -38,6 +39,9 @@ export default function Resume() {
                     <div className="username">
                         <div>{user.login}</div>
                         <div>{user.name}</div>
+                        <div>
+                            {user.public_repos} public repos since {moment(user.created_at).format('DD.MM.YYYY')}
+                        </div>
                     </div>
                 </header>
 
