@@ -1,2 +1,47 @@
+.loading {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    font-size: 10vw;
+    color: white;
+}
+
 .resume {
+    .layout {
+        width: 50vw;
+        max-width: 1000px;
+        margin: 10vh auto;
+        padding: 10vh 5vw;
+        background: rgb(246, 246, 246);
+
+        header {
+            display: flex;
+            gap: 3vw;
+            margin-bottom: 5vh;
+
+            div {
+                display: flex;
+                justify-content: center;
+            }
+
+            .avatar {
+                img {
+                    width: 10vw;
+                }
+            }
+            .username {
+                flex-direction: column;
+                align-items: start !important;
+
+                div:nth-child(1) {
+                    font-weight: bold;
+                    font-size: 2vw;
+                }
+                div:nth-child(2) {
+                    font-size: 1.7vw;
+                }
+            }
+        }
+    }
 }
