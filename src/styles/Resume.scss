@@ -68,3 +68,36 @@
         }
     }
 }
+
+@media only screen and (max-width: 600px) {
+    .loading {
+        font-size: 20vw;
+    }
+
+    .resume {
+        .layout {
+            margin: 0;
+            width: auto;
+
+            header {
+                .avatar {
+                    img {
+                        width: 35vw;
+                    }
+                }
+
+                .username {
+                    div:nth-child(1) {
+                        font-size: 7vw;
+                    }
+                    div:nth-child(2) {
+                        font-size: 5vw;
+                    }
+                    div:nth-child(3) {
+                        font-size: 4vw;
+                    }
+                }
+            }
+        }
+    }
+}

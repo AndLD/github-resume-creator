@@ -30,6 +30,25 @@
             padding: 10px 20px;
             background-color: black;
             cursor: pointer;
+            border: none;
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        .form {
+            .label {
+                font-size: 6vw;
+                color: white;
+            }
+
+            input {
+                font-size: 5vw;
+            }
+
+            button {
+                font-size: 4vw;
+                padding: 10px 30px;
+            }
         }
     }
 }
