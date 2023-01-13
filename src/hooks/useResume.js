@@ -4,21 +4,26 @@ import { useEffect, useState } from 'react'
 export default function useResume(username) {
     const octokit = new Octokit()
 
+    const [isUserLoading, setIsLoading] = useState(true)
+
     const [user, setUser] = useState()
     const [repos, setRepos] = useState([])
     const [repoLngs, setRepoLngs] = useState([])
 
     useEffect(() => {
-        octokit.request(`GET /users/${username}`).then(({ data }) => {
-            setUser({
-                avatar_url: data.avatar_url,
-                login: data.login,
-                name: data.name,
-                public_repos: data.public_repos,
-                repos_url: data.repos_url,
-                created_at: data.created_at
+        octokit
+            .request(`GET /users/${username}`)
+            .then(({ data }) => {
+                setUser({
+                    avatar_url: data.avatar_url,
+                    login: data.login,
+                    name: data.name,
+                    public_repos: data.public_repos,
+                    repos_url: data.repos_url,
+                    created_at: data.created_at
+                })
             })
-        })
+            .finally(() => setIsLoading(false))
     }, [])
 
     useEffect(() => {
@@ -79,6 +84,7 @@ export default function useResume(username) {
     return {
         user,
         repos,
-        repoLngs
+        repoLngs,
+        isUserLoading
     }
 }

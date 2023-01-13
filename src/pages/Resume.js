@@ -11,12 +11,20 @@ import '../styles/Resume.scss'
 export default function Resume() {
     const params = useParams()
 
-    const { user, repos, repoLngs } = useResume(params.username)
+    const { user, repos, repoLngs, isUserLoading } = useResume(params.username)
+
+    if (isUserLoading) {
+        return (
+            <div className="loading">
+                <LoadingOutlined />
+            </div>
+        )
+    }
 
     if (!user) {
         return (
             <div className="loading">
-                <LoadingOutlined />
+                <div>404</div>
             </div>
         )
     }
