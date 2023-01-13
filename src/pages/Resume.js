@@ -1,4 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons'
+import { Bar } from '@ant-design/plots'
 import moment from 'moment'
 import { Octokit } from 'octokit'
 import { useEffect, useState } from 'react'
@@ -10,16 +11,87 @@ export default function Resume() {
 
     const [username] = useState(params.username)
     const [user, setUser] = useState()
+    const [repos, setRepos] = useState([])
+    const [repoLngs, setRepoLngs] = useState([])
 
     useEffect(() => {
-        console.log(username)
         const octokit = new Octokit()
 
-        octokit.request(`GET /users/${username}`).then((value) => {
-            setUser(value.data)
-            console.log(value.data)
+        octokit.request(`GET /users/${username}`).then(({ data }) => {
+            setUser({
+                avatar_url: data.avatar_url,
+                login: data.login,
+                name: data.name,
+                public_repos: data.public_repos,
+                repos_url: data.repos_url,
+                created_at: data.created_at
+            })
         })
     }, [])
+
+    useEffect(() => {
+        if (user) {
+            const octokit = new Octokit()
+
+            octokit.request(user.repos_url).then(({ data }) => {
+                setRepos(
+                    data.map((repo) => {
+                        return {
+                            full_name: repo.full_name,
+                            language: repo.language,
+                            languages_url: repo.languages_url,
+                            updated_at: repo.updated_at
+                        }
+                    })
+                )
+            })
+        }
+    }, [user])
+
+    useEffect(() => {
+        if (repos.length) {
+            const octokit = new Octokit()
+
+            const promises = []
+
+            for (const repo of repos) {
+                promises.push(octokit.request(repo.languages_url))
+            }
+
+            Promise.all(promises).then((values) => {
+                const repoLngs = values.reduce((accumulator, currentValue) => {
+                    for (const key in currentValue.data) {
+                        if (accumulator[key]) {
+                            accumulator[key] += currentValue.data[key]
+                        } else {
+                            accumulator[key] = currentValue.data[key]
+                        }
+                    }
+
+                    return accumulator
+                }, {})
+
+                let total = 0
+
+                for (const key in repoLngs) {
+                    total += repoLngs[key]
+                }
+
+                setRepoLngs(
+                    Object.keys(repoLngs).map((key) => ({
+                        language: key,
+                        percent: parseFloat(((repoLngs[key] * 100) / total).toFixed(1))
+                    }))
+                )
+            })
+        }
+    }, [repos])
+
+    useEffect(() => {
+        if (repoLngs.length) {
+            console.log(repoLngs)
+        }
+    }, [repoLngs])
 
     if (!user) {
         return (
@@ -27,6 +99,16 @@ export default function Resume() {
                 <LoadingOutlined />
             </div>
         )
+    }
+
+    const config = {
+        data: repoLngs,
+        xField: 'percent',
+        yField: 'language',
+        seriesField: 'language',
+        legend: {
+            position: 'top'
+        }
     }
 
     return (
@@ -45,7 +127,9 @@ export default function Resume() {
                     </div>
                 </header>
 
-                <main></main>
+                <main>
+                    <Bar {...config} />
+                </main>
                 <footer></footer>
             </div>
         </div>
