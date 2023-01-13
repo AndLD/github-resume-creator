@@ -48,5 +48,23 @@
                 }
             }
         }
+
+        main {
+            .repo {
+                display: flex;
+                justify-content: space-between;
+                margin: 20px 0;
+                padding: 10px;
+                background: rgb(232, 232, 232);
+
+                .repo-name {
+                    font-weight: bold;
+                }
+
+                .repo-updated-at {
+                    font-style: italic;
+                }
+            }
+        }
     }
 }

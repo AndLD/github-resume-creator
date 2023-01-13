@@ -35,14 +35,15 @@ export default function Resume() {
 
             octokit.request(user.repos_url).then(({ data }) => {
                 setRepos(
-                    data.map((repo) => {
-                        return {
+                    data
+                        .map((repo) => ({
                             full_name: repo.full_name,
                             language: repo.language,
                             languages_url: repo.languages_url,
-                            updated_at: repo.updated_at
-                        }
-                    })
+                            updated_at: repo.updated_at,
+                            html_url: repo.html_url
+                        }))
+                        .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
                 )
             })
         }
@@ -59,12 +60,12 @@ export default function Resume() {
             }
 
             Promise.all(promises).then((values) => {
-                const repoLngs = values.reduce((accumulator, currentValue) => {
-                    for (const key in currentValue.data) {
+                const repoLngs = values.reduce((accumulator, { data }) => {
+                    for (const key in data) {
                         if (accumulator[key]) {
-                            accumulator[key] += currentValue.data[key]
+                            accumulator[key] += data[key]
                         } else {
-                            accumulator[key] = currentValue.data[key]
+                            accumulator[key] = data[key]
                         }
                     }
 
@@ -86,12 +87,6 @@ export default function Resume() {
             })
         }
     }, [repos])
-
-    useEffect(() => {
-        if (repoLngs.length) {
-            console.log(repoLngs)
-        }
-    }, [repoLngs])
 
     if (!user) {
         return (
@@ -129,8 +124,24 @@ export default function Resume() {
 
                 <main>
                     <Bar {...config} />
+
+                    <div>
+                        <h3>Last updated repositories:</h3>
+                        {repos.slice(0, 10).map((repo) => (
+                            <div className="repo" key={repo.full_name}>
+                                <div>
+                                    <div>
+                                        <a href={repo.html_url} className="repo-name">
+                                            {repo.full_name}
+                                        </a>
+                                    </div>
+                                    <div>{repo.language}</div>
+                                </div>
+                                <div className="repo-updated-at">{moment(repo.updated_at).format('DD.MM.YYYY')}</div>
+                            </div>
+                        ))}
+                    </div>
                 </main>
-                <footer></footer>
             </div>
         </div>
     )
