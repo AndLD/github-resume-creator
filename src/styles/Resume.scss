@@ -8,62 +8,60 @@
 }
 
 .resume {
-    .layout {
-        width: 50vw;
-        max-width: 1000px;
-        margin: 10vh auto;
-        padding: 10vh 5vw;
-        background: rgb(246, 246, 246);
+    width: 50vw;
+    max-width: 1000px;
+    margin: 10vh auto;
+    padding: 10vh 5vw;
+    background: rgb(246, 246, 246);
 
-        header {
+    header {
+        display: flex;
+        gap: 3vw;
+        margin-bottom: 5vh;
+
+        div {
             display: flex;
-            gap: 3vw;
-            margin-bottom: 5vh;
-
-            div {
-                display: flex;
-                justify-content: center;
-            }
-
-            .avatar {
-                img {
-                    width: 10vw;
-                }
-            }
-            .username {
-                flex-direction: column;
-                align-items: start !important;
-
-                div:nth-child(1) {
-                    font-weight: bold;
-                    font-size: 2vw;
-                }
-                div:nth-child(2) {
-                    font-size: 1.7vw;
-                }
-                div:nth-child(3) {
-                    font-size: 1.5vw;
-                    font-style: italic;
-                    line-height: 1.5;
-                }
-            }
+            justify-content: center;
         }
 
-        main {
-            .repo {
-                display: flex;
-                justify-content: space-between;
-                margin: 20px 0;
-                padding: 10px;
-                background: rgb(232, 232, 232);
+        .avatar {
+            img {
+                width: 10vw;
+            }
+        }
+        .userinfo {
+            flex-direction: column;
+            align-items: start !important;
 
-                .repo-name {
-                    font-weight: bold;
-                }
+            div:nth-child(1) {
+                font-weight: bold;
+                font-size: 2vw;
+            }
+            div:nth-child(2) {
+                font-size: 1.7vw;
+            }
+            div:nth-child(3) {
+                font-size: 1.5vw;
+                font-style: italic;
+                line-height: 1.5;
+            }
+        }
+    }
 
-                .repo-updated-at {
-                    font-style: italic;
-                }
+    main {
+        .repo {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 10px;
+            background: rgb(232, 232, 232);
+
+            .repo-name {
+                font-weight: bold;
+            }
+
+            .repo-updated-at {
+                font-style: italic;
             }
         }
     }
@@ -75,27 +73,25 @@
     }
 
     .resume {
-        .layout {
-            margin: 0;
-            width: auto;
+        margin: 0;
+        width: auto;
 
-            header {
-                .avatar {
-                    img {
-                        width: 35vw;
-                    }
+        header {
+            .avatar {
+                img {
+                    width: 35vw;
                 }
+            }
 
-                .username {
-                    div:nth-child(1) {
-                        font-size: 7vw;
-                    }
-                    div:nth-child(2) {
-                        font-size: 5vw;
-                    }
-                    div:nth-child(3) {
-                        font-size: 4vw;
-                    }
+            .userinfo {
+                div:nth-child(1) {
+                    font-size: 7vw;
+                }
+                div:nth-child(2) {
+                    font-size: 5vw;
+                }
+                div:nth-child(3) {
+                    font-size: 4vw;
                 }
             }
         }
